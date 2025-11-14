@@ -59,6 +59,9 @@ export const AuthProvider = ({ children }) => {
 
   const signUp = async (email, password, username) => {
     try {
+      // Get current window location for redirect
+      const redirectUrl = window.location.origin;
+      
       // Pass username in user metadata - the database trigger will create the profile
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
@@ -67,6 +70,7 @@ export const AuthProvider = ({ children }) => {
           data: {
             username: username,
           },
+          emailRedirectTo: redirectUrl,
         },
       });
 
