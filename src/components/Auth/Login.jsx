@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Mail, Lock } from 'lucide-react';
 
 export default function Login({ onToggleMode }) {
   const [email, setEmail] = useState('');
@@ -25,20 +25,29 @@ export default function Login({ onToggleMode }) {
 
   return (
     <div className="w-full max-w-md">
-      <div className="bg-white rounded-lg shadow-lg p-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">Welcome Back</h2>
+      <div className="crt-frame p-8">
+        {/* Terminal Header */}
+        <div className="mb-6">
+          <h2 className="text-3xl font-display font-bold text-vintage-white text-stencil mb-2">
+            ACCESS TERMINAL
+          </h2>
+          <div className="readout inline-block">
+            AUTHENTICATION PROTOCOL // v2.47.3
+          </div>
+        </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2">
-            <AlertCircle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
-            <p className="text-sm text-red-800">{error}</p>
+          <div className="mb-6 p-4 bg-rust-dark/30 border-2 border-rust flex items-start gap-3 rust-accent">
+            <AlertCircle className="w-5 h-5 text-signal-orange mt-0.5 flex-shrink-0 signal-pulse" />
+            <p className="text-sm text-vintage-cream font-mono">{error}</p>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email
+            <label htmlFor="email" className="block text-xs font-display font-semibold uppercase tracking-wider text-steel-light mb-2">
+              <Mail className="w-3 h-3 inline mr-1" />
+              Transmission ID
             </label>
             <input
               id="email"
@@ -46,14 +55,15 @@ export default function Login({ onToggleMode }) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="hunter@arcraiders.com"
+              className="input-tactical"
+              placeholder="operator@arc-net.sys"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Password
+            <label htmlFor="password" className="block text-xs font-display font-semibold uppercase tracking-wider text-steel-light mb-2">
+              <Lock className="w-3 h-3 inline mr-1" />
+              Access Code
             </label>
             <input
               id="password"
@@ -61,7 +71,7 @@ export default function Login({ onToggleMode }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="input-tactical"
               placeholder="••••••••"
             />
           </div>
@@ -69,20 +79,22 @@ export default function Login({ onToggleMode }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full btn-signal"
           >
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? '[ AUTHENTICATING ... ]' : '[ GRANT ACCESS ]'}
           </button>
         </form>
 
+        <div className="panel-divider" />
+
         <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">
-            Don't have an account?{' '}
+          <p className="text-sm text-steel-light font-mono">
+            &gt; NEW OPERATIVE?{' '}
             <button
               onClick={onToggleMode}
-              className="text-blue-600 hover:text-blue-700 font-medium"
+              className="text-signal-orange hover:text-signal-ochre font-semibold uppercase transition-colors"
             >
-              Sign up
+              [REGISTER]
             </button>
           </p>
         </div>

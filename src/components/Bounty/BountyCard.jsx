@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MapPin, Clock, Trophy, User, Image as ImageIcon } from 'lucide-react';
+import { MapPin, Clock, Trophy, User, Image as ImageIcon, AlertTriangle, Target } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 export default function BountyCard({ bounty, onClick }) {
@@ -29,84 +29,121 @@ export default function BountyCard({ bounty, onClick }) {
     const diff = expires - now;
 
     if (diff <= 0) {
-      setTimeRemaining('Expired');
+      setTimeRemaining('EXPIRED');
       return;
     }
 
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    setTimeRemaining(`${hours}h ${minutes}m`);
+    setTimeRemaining(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`);
   };
 
-  const getStatusColor = () => {
+  const getStatusStyle = () => {
     switch (bounty.status) {
       case 'active':
-        return 'bg-green-900/20 text-green-400 border-green-700';
+        return 'bg-signal-orange/20 text-signal-orange border-signal-ochre';
       case 'claimed':
-        return 'bg-yellow-900/20 text-yellow-400 border-yellow-700';
+        return 'bg-olive/20 text-olive border-olive-dark';
       case 'confirmed':
-        return 'bg-blue-900/20 text-blue-400 border-blue-700';
+        return 'bg-denim/20 text-denim-light border-denim';
       case 'expired':
-        return 'bg-gray-900/20 text-gray-400 border-gray-700';
+        return 'bg-steel-dark/20 text-steel-light border-steel';
       default:
-        return 'bg-gray-900/20 text-gray-400 border-gray-700';
+        return 'bg-steel-dark/20 text-steel-light border-steel';
     }
   };
 
   return (
     <div
       onClick={onClick}
-      className="bg-gray-800 rounded-lg p-4 border border-gray-700 hover:border-gray-600 transition-all cursor-pointer hover:shadow-lg"
+      className="card-weathered p-5 hover:shadow-crt transition-all cursor-pointer relative rust-accent group"
     >
-      <div className="flex items-start justify-between mb-3">
+      {/* Corner brackets */}
+      <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-signal-orange opacity-50"></div>
+      <div className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-signal-orange opacity-50"></div>
+      <div className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-signal-orange opacity-50"></div>
+      <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-signal-orange opacity-50"></div>
+
+      <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-lg font-bold text-white">{bounty.target_name}</h3>
-            <span className={`px-2 py-0.5 rounded text-xs font-medium border ${getStatusColor()}`}>
-              {bounty.status}
-            </span>
+          <div className="flex items-center gap-3 mb-2">
+            <Target className="w-5 h-5 text-signal-orange" />
+            <h3 className="text-xl font-display font-bold text-vintage-white text-stencil">
+              {bounty.target_name}
+            </h3>
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-400">
+          <div className="flex items-center gap-2 text-sm text-steel-light font-mono">
             <User className="w-3.5 h-3.5" />
-            <span>Reported by {reporter?.username || 'Loading...'}</span>
+            <span>&gt; REPORTED BY: </span>
+            <span className="text-vintage-cream font-semibold">{reporter?.username || '...'}</span>
           </div>
         </div>
 
         {bounty.proof_url && (
-          <div className="ml-3">
-            <div className="w-16 h-16 bg-gray-900 rounded-lg overflow-hidden border border-gray-700">
+          <div className="ml-4">
+            <div className="w-20 h-20 bg-denim-dark rounded border-2 border-steel-dark overflow-hidden shadow-bezel relative">
               <img
                 src={bounty.proof_url}
-                alt="Proof"
-                className="w-full h-full object-cover"
+                alt="Evidence"
+                className="w-full h-full object-cover opacity-90"
               />
+              <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/30 pointer-events-none"></div>
             </div>
           </div>
         )}
       </div>
 
-      <div className="space-y-2">
-        <div className="flex items-center gap-2 text-sm text-gray-300">
-          <MapPin className="w-4 h-4 text-gray-500" />
-          <span>{bounty.last_location}</span>
+      {/* Status badge */}
+      <div className="mb-4">
+        <span className={`inline-flex items-center px-3 py-1.5 text-xs font-mono font-bold uppercase border-2 ${getStatusStyle()}`}
+              style={{ clipPath: 'polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px)' }}>
+          <div className="w-2 h-2 rounded-full mr-2 signal-pulse bg-current"></div>
+          {bounty.status}
+        </span>
+      </div>
+
+      {/* Info grid */}
+      <div className="space-y-3 mb-4">
+        <div className="flex items-center gap-3 text-sm text-vintage-cream font-mono bg-denim-dark/30 p-2 border border-steel/30">
+          <MapPin className="w-4 h-4 text-signal-orange flex-shrink-0" />
+          <div className="flex-1">
+            <span className="text-xs text-steel-light uppercase block">Last Known Position</span>
+            <span className="font-semibold">{bounty.last_location}</span>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2 text-sm text-gray-300">
-          <Clock className="w-4 h-4 text-gray-500" />
-          <span>Session: <span className="font-mono font-semibold">{bounty.session_id}</span></span>
+        <div className="flex items-center gap-3 text-sm text-vintage-cream font-mono bg-denim-dark/30 p-2 border border-steel/30">
+          <Clock className="w-4 h-4 text-signal-orange flex-shrink-0" />
+          <div className="flex-1">
+            <span className="text-xs text-steel-light uppercase block">Session ID</span>
+            <span className="font-semibold tracking-wider">{bounty.session_id}</span>
+          </div>
         </div>
 
         {bounty.reward_offer && (
-          <div className="flex items-center gap-2 text-sm text-yellow-400">
-            <Trophy className="w-4 h-4" />
-            <span>{bounty.reward_offer}</span>
+          <div className="flex items-center gap-3 text-sm bg-gradient-to-r from-signal-ochre/20 to-signal-orange/20 p-3 border-2 border-signal-orange/50">
+            <Trophy className="w-5 h-5 text-signal-orange flex-shrink-0" />
+            <div className="flex-1">
+              <span className="text-xs text-signal-orange uppercase font-display font-bold block">Bounty Reward</span>
+              <span className="text-vintage-white font-display font-semibold">{bounty.reward_offer}</span>
+            </div>
           </div>
         )}
       </div>
 
-      <div className="mt-3 pt-3 border-t border-gray-700 flex items-center justify-between text-xs text-gray-500">
-        <span>{timeRemaining} remaining</span>
-        <span>{new Date(bounty.created_at).toLocaleTimeString()}</span>
+      {/* Footer */}
+      <div className="panel-divider" />
+      <div className="mt-3 flex items-center justify-between">
+        <div className="readout">
+          {timeRemaining} REMAINING
+        </div>
+        <span className="text-xs text-steel font-mono">
+          {new Date(bounty.created_at).toLocaleTimeString('en-US', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: false 
+          })}
+        </span>
       </div>
     </div>
   );

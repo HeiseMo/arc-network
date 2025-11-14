@@ -114,20 +114,19 @@ export default function ConfirmationForm({ bountyId, onSuccess, onCancel }) {
   };
 
   return (
-    <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
-      <h4 className="text-lg font-semibold text-white mb-4">Claim Bounty</h4>
-
+    <div className="space-y-4">
       {error && (
-        <div className="mb-4 p-3 bg-red-900/20 border border-red-700 rounded-lg flex items-start gap-2">
+        <div className="card-weathered border-red-500/50 bg-red-900/20 flex items-start gap-3 animate-pulse">
           <AlertCircle className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
-          <p className="text-sm text-red-300">{error}</p>
+          <p className="text-sm text-red-300 font-mono">{error}</p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Session ID Input */}
         <div>
-          <label htmlFor="confirmSessionId" className="block text-sm font-medium text-gray-300 mb-1">
-            Session ID <span className="text-red-400">*</span>
+          <label htmlFor="confirmSessionId" className="block text-xs font-bold text-orange-400 uppercase tracking-wider mb-2 font-mono">
+            [ SESSION ID ] <span className="text-red-400">*</span>
           </label>
           <input
             id="confirmSessionId"
@@ -137,39 +136,51 @@ export default function ConfirmationForm({ bountyId, onSuccess, onCancel }) {
             placeholder="XXXXX-XXXX"
             maxLength={10}
             required
-            className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="input-tactical w-full font-mono text-lg tracking-wider"
           />
-          <p className="mt-1 text-xs text-gray-500">
-            Session where you confirmed the kill
+          <p className="mt-2 text-xs text-gray-500 font-mono">
+            &gt; ENTER SESSION WHERE KILL WAS CONFIRMED
           </p>
         </div>
 
+        {/* Proof Upload */}
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            Proof of Kill <span className="text-red-400">*</span>
+          <label className="block text-xs font-bold text-orange-400 uppercase tracking-wider mb-2 font-mono">
+            [ PROOF OF KILL ] <span className="text-red-400">*</span>
           </label>
 
           {proofPreview ? (
-            <div className="relative">
-              <img
-                src={proofPreview}
-                alt="Proof preview"
-                className="w-full h-48 object-cover rounded-lg"
-              />
+            <div className="relative card-weathered border-orange-500/30 p-2">
+              <div className="flex items-center gap-2 mb-2 pb-2 border-b border-orange-500/30">
+                <CheckCircle className="w-4 h-4 text-green-400" />
+                <span className="text-xs font-bold text-green-400 uppercase tracking-wider">IMAGE LOADED</span>
+              </div>
+              <div className="relative" style={{ clipPath: 'polygon(2% 0%, 98% 0%, 100% 2%, 100% 98%, 98% 100%, 2% 100%, 0% 98%, 0% 2%)' }}>
+                <img
+                  src={proofPreview}
+                  alt="Proof preview"
+                  className="w-full h-48 object-cover"
+                />
+              </div>
               <button
                 type="button"
                 onClick={removeFile}
-                className="absolute top-2 right-2 p-1.5 bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
+                className="absolute top-4 right-4 p-2 bg-rust-700 hover:bg-rust-600 border-2 border-rust-500 transition-colors"
+                style={{ clipPath: 'polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%)' }}
               >
                 <X className="w-4 h-4 text-white" />
               </button>
             </div>
           ) : (
-            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-700 border-dashed rounded-lg cursor-pointer hover:border-gray-600 transition-colors">
-              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <Upload className="w-8 h-8 text-gray-500 mb-2" />
-                <p className="text-sm text-gray-400">Click to upload screenshot</p>
-                <p className="text-xs text-gray-500 mt-1">PNG, JPG, GIF (max 10MB)</p>
+            <label className="block card-weathered border-dashed border-2 border-orange-500/30 hover:border-orange-500/60 cursor-pointer transition-colors p-8">
+              <div className="flex flex-col items-center justify-center text-center">
+                <Upload className="w-12 h-12 text-orange-400 mb-3" />
+                <p className="text-sm text-orange-400 font-bold uppercase tracking-wider mb-1 font-mono">
+                  [ UPLOAD SCREENSHOT ]
+                </p>
+                <p className="text-xs text-gray-500 font-mono">
+                  PNG, JPG, GIF // MAX 10MB
+                </p>
               </div>
               <input
                 type="file"
@@ -182,20 +193,28 @@ export default function ConfirmationForm({ bountyId, onSuccess, onCancel }) {
           )}
         </div>
 
-        <div className="flex gap-3">
+        {/* Action Buttons */}
+        <div className="flex gap-3 pt-2">
           <button
             type="button"
             onClick={onCancel}
-            className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-medium py-2.5 px-4 rounded-lg transition-colors"
+            className="flex-1 btn-tactical bg-gradient-to-r from-steel to-steel-dark border-steel-dark text-white font-bold py-3 px-4 uppercase tracking-wider"
           >
-            Cancel
+            [ CANCEL ]
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 btn-tactical bg-gradient-to-r from-orange-600 to-orange-500 border-orange-400 text-white font-bold py-3 px-4 uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {loading ? 'Submitting...' : 'Submit Claim'}
+            {loading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                SUBMITTING...
+              </>
+            ) : (
+              '[ SUBMIT CLAIM ]'
+            )}
           </button>
         </div>
       </form>

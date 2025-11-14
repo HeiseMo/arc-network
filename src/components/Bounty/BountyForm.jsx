@@ -11,6 +11,8 @@ export default function BountyForm({ onSuccess }) {
     lastLocation: '',
     description: '',
     rewardOffer: '',
+    timeLeftWhenKilled: '',
+    activePeriod: '1week',
   });
   const [proofFile, setProofFile] = useState(null);
   const [proofPreview, setProofPreview] = useState(null);
@@ -120,6 +122,8 @@ export default function BountyForm({ onSuccess }) {
           description: formData.description || null,
           proof_url: proofUrl,
           reward_offer: formData.rewardOffer || null,
+          time_left_when_killed: formData.timeLeftWhenKilled ? parseInt(formData.timeLeftWhenKilled) : null,
+          active_period: formData.activePeriod,
           status: 'active',
         });
 
@@ -132,6 +136,8 @@ export default function BountyForm({ onSuccess }) {
         lastLocation: '',
         description: '',
         rewardOffer: '',
+        timeLeftWhenKilled: '',
+        activePeriod: '1week',
       });
       setProofFile(null);
       setProofPreview(null);
@@ -150,27 +156,34 @@ export default function BountyForm({ onSuccess }) {
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-      <h3 className="text-lg font-semibold text-white mb-4">Report a Bounty</h3>
+    <div className="crt-frame p-6">
+      <div className="mb-6">
+        <h3 className="text-2xl font-display font-bold text-vintage-white text-stencil mb-2">
+          REPORT BOUNTY
+        </h3>
+        <div className="readout inline-block">
+          TARGET ACQUISITION FORM // v2.47.3
+        </div>
+      </div>
 
       {error && (
-        <div className="mb-4 p-3 bg-red-900/20 border border-red-700 rounded-lg flex items-start gap-2">
-          <AlertCircle className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
-          <p className="text-sm text-red-300">{error}</p>
+        <div className="mb-4 p-4 bg-rust-dark/30 border-2 border-rust flex items-start gap-3 rust-accent">
+          <AlertCircle className="w-5 h-5 text-signal-orange mt-0.5 flex-shrink-0 signal-pulse" />
+          <p className="text-sm text-vintage-cream font-mono">{error}</p>
         </div>
       )}
 
       {success && (
-        <div className="mb-4 p-3 bg-green-900/20 border border-green-700 rounded-lg flex items-start gap-2">
-          <CheckCircle className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
-          <p className="text-sm text-green-300">Bounty posted successfully!</p>
+        <div className="mb-4 p-4 bg-olive/20 border-2 border-olive flex items-start gap-3">
+          <CheckCircle className="w-5 h-5 text-signal-orange mt-0.5 flex-shrink-0" />
+          <p className="text-sm text-vintage-white font-mono">&gt; BOUNTY TRANSMISSION SUCCESSFUL</p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label htmlFor="sessionId" className="block text-sm font-medium text-gray-300 mb-1">
-            Session ID <span className="text-red-400">*</span>
+          <label htmlFor="sessionId" className="block text-xs font-display font-semibold uppercase tracking-wider text-steel-light mb-2">
+            Session ID <span className="text-signal-orange">*</span>
           </label>
           <input
             id="sessionId"
@@ -181,7 +194,7 @@ export default function BountyForm({ onSuccess }) {
             placeholder="XXXXX-XXXX"
             maxLength={10}
             required
-            className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="input-tactical font-mono uppercase"
           />
         </div>
 
@@ -217,6 +230,76 @@ export default function BountyForm({ onSuccess }) {
             minLength={3}
             className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
+        </div>
+
+        <div>
+          <label htmlFor="timeLeftWhenKilled" className="block text-xs font-display font-semibold uppercase tracking-wider text-steel-light mb-2">
+            Time Left in Session (Minutes)
+          </label>
+          <input
+            id="timeLeftWhenKilled"
+            name="timeLeftWhenKilled"
+            type="number"
+            min="0"
+            max="300"
+            value={formData.timeLeftWhenKilled}
+            onChange={handleInputChange}
+            placeholder="e.g., 15"
+            className="input-tactical font-mono"
+          />
+          <p className="mt-1 text-xs text-steel-light font-mono">&gt; HOW MANY MINUTES WERE LEFT WHEN YOU DIED?</p>
+        </div>
+
+        <div>
+          <label htmlFor="activePeriod" className="block text-xs font-display font-semibold uppercase tracking-wider text-steel-light mb-2">
+            Bounty Active Period <span className="text-signal-orange">*</span>
+          </label>
+          <div className="grid grid-cols-3 gap-3">
+            <label className={`relative cursor-pointer card-weathered border-2 transition-all ${formData.activePeriod === '24h' ? 'border-orange-500 bg-orange-900/20' : 'border-steel-600 hover:border-orange-500/50'}`}>
+              <input
+                type="radio"
+                name="activePeriod"
+                value="24h"
+                checked={formData.activePeriod === '24h'}
+                onChange={handleInputChange}
+                className="sr-only"
+              />
+              <div className="p-3 text-center">
+                <div className="text-lg font-bold text-orange-400 font-mono">24</div>
+                <div className="text-xs text-gray-400 uppercase font-mono">Hours</div>
+              </div>
+            </label>
+            
+            <label className={`relative cursor-pointer card-weathered border-2 transition-all ${formData.activePeriod === '1week' ? 'border-orange-500 bg-orange-900/20' : 'border-steel-600 hover:border-orange-500/50'}`}>
+              <input
+                type="radio"
+                name="activePeriod"
+                value="1week"
+                checked={formData.activePeriod === '1week'}
+                onChange={handleInputChange}
+                className="sr-only"
+              />
+              <div className="p-3 text-center">
+                <div className="text-lg font-bold text-orange-400 font-mono">1</div>
+                <div className="text-xs text-gray-400 uppercase font-mono">Week</div>
+              </div>
+            </label>
+            
+            <label className={`relative cursor-pointer card-weathered border-2 transition-all ${formData.activePeriod === 'unlimited' ? 'border-orange-500 bg-orange-900/20' : 'border-steel-600 hover:border-orange-500/50'}`}>
+              <input
+                type="radio"
+                name="activePeriod"
+                value="unlimited"
+                checked={formData.activePeriod === 'unlimited'}
+                onChange={handleInputChange}
+                className="sr-only"
+              />
+              <div className="p-3 text-center">
+                <div className="text-lg font-bold text-orange-400 font-mono">∞</div>
+                <div className="text-xs text-gray-400 uppercase font-mono">Unlimited</div>
+              </div>
+            </label>
+          </div>
         </div>
 
         <div>
@@ -297,9 +380,9 @@ export default function BountyForm({ onSuccess }) {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full btn-signal disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? 'Posting Bounty...' : 'Post Bounty'}
+          {loading ? '[ TRANSMITTING ... ]' : '[ POST BOUNTY ]'}
         </button>
       </form>
     </div>

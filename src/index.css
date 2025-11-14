@@ -1,7 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Rajdhani:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply bg-denim-dark font-mono text-vintage-white;
+    background-image: 
+      url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="4.5" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.05"/%3E%3C/svg%3E'),
+      linear-gradient(180deg, #243A4D 0%, #1a2936 100%);
+    background-attachment: fixed;
+  }
+
+  /* Scanline overlay effect */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.05) 2px,
+      rgba(0, 0, 0, 0.05) 4px
+    );
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* CRT Glow effect */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    pointer-events: none;
+    background: radial-gradient(
+      circle at center,
+      transparent 0%,
+      rgba(51, 83, 107, 0.05) 50%,
+      rgba(36, 58, 77, 0.2) 100%
+    );
+    z-index: 9998;
+  }
+}
+
+@layer components {
+  /* CRT Frame Container */
+  .crt-frame {
+    @apply relative bg-denim-dark border-4 border-steel rounded-sm shadow-crt;
+    background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="4.5" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.08"/%3E%3C/svg%3E');
+  }
+
+  .crt-frame::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(239, 111, 44, 0.3), transparent);
+    animation: scanline 8s linear infinite;
+  }
+
+  /* CRT Frame without animated scanline (for modals) */
+  .crt-frame-static {
+    @apply relative bg-denim-dark border-4 border-steel rounded-sm shadow-crt;
+    background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="4.5" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.08"/%3E%3C/svg%3E');
+  }
+
+  /* Tactical Button */
+  .btn-tactical {
+    @apply relative px-6 py-3 font-display font-semibold uppercase tracking-wider text-sm;
+    @apply bg-gradient-to-b from-steel-light to-steel border-2 border-steel-dark;
+    @apply text-vintage-white shadow-tactical transition-all duration-150;
+    @apply hover:from-steel hover:to-steel-dark hover:shadow-bezel;
+    @apply active:translate-y-0.5 active:shadow-none;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  }
+
+  .btn-tactical::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    pointer-events: none;
+  }
+
+  .btn-signal {
+    @apply btn-tactical bg-gradient-to-b from-signal-orange to-signal-ochre;
+    @apply border-signal-ochre hover:from-signal-ochre hover:to-rust;
+  }
+
+  .btn-danger {
+    @apply btn-tactical bg-gradient-to-b from-rust to-rust-dark;
+    @apply border-rust-dark hover:from-rust-dark hover:to-rust-dark;
+  }
+
+  /* Tactical Input */
+  .input-tactical {
+    @apply w-full px-4 py-3 bg-denim-dark border-2 border-steel font-mono text-vintage-white;
+    @apply focus:border-signal-orange focus:outline-none focus:ring-2 focus:ring-signal-orange/30;
+    @apply placeholder:text-steel-light transition-all;
+    clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Weathered Card */
+  .card-weathered {
+    @apply relative bg-gradient-to-br from-steel to-steel-dark border-2 border-steel-dark rounded-sm;
+    @apply shadow-lg;
+    background-image: 
+      linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 100%),
+      url('data:image/svg+xml,%3Csvg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="3" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.15"/%3E%3C/svg%3E');
+  }
+
+  /* Rust accent */
+  .rust-accent {
+    @apply relative;
+  }
+
+  .rust-accent::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #783E3D, #522b2e);
+    box-shadow: -1px 0 2px rgba(120, 62, 61, 0.5);
+  }
+
+  /* Signal indicator */
+  .signal-pulse {
+    @apply relative;
+    animation: flicker 2s ease-in-out infinite;
+  }
+
+  .signal-pulse::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, rgba(239, 111, 44, 0.3), transparent 70%);
+    animation: flicker 2s ease-in-out infinite;
+  }
+
+  /* Stencil Text Effect */
+  .text-stencil {
+    @apply font-display font-bold uppercase tracking-widest;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.15em;
+  }
+
+  /* Machine readout */
+  .readout {
+    @apply font-mono text-xs tracking-wider bg-denim-dark/50 px-3 py-1 border border-olive;
+    @apply text-signal-orange;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Tactical Badge */
+  .badge-tactical {
+    @apply inline-flex items-center px-3 py-1 text-xs font-mono font-semibold uppercase;
+    @apply bg-steel-dark border border-steel-light text-vintage-cream;
+    clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
+  }
+
+  /* Panel separator */
+  .panel-divider {
+    @apply h-px bg-gradient-to-r from-transparent via-steel to-transparent my-4;
+  }
+
+  /* Custom Scrollbar for Modals */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #1a2936;
+    border-left: 2px solid #767A7F;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #EF6F2C 0%, #B55F30 100%);
+    border: 2px solid #1a2936;
+    border-radius: 0;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ff8c4a 0%, #d67340 100%);
+  }
+
+  /* Firefox scrollbar */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #EF6F2C #1a2936;
+  }
+}
+
+@layer utilities {
+  /* Glitch effect utility */
+  .glitch {
+    position: relative;
+  }
+
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .glitch::before {
+    left: 2px;
+    text-shadow: -2px 0 #ff00de;
+    clip: rect(24px, 550px, 90px, 0);
+    animation: glitch 3s infinite linear alternate-reverse;
+  }
+
+  .glitch::after {
+    left: -2px;
+    text-shadow: -2px 0 #00fff9, 2px 2px #ff00de;
+    clip: rect(85px, 550px, 140px, 0);
+    animation: glitch 2s infinite linear alternate-reverse;
+  }
+}
+
+/* Custom animations */
 @keyframes slide-in {
   from {
     transform: translateX(400px);
@@ -15,4 +257,35 @@
 
 .animate-slide-in {
   animation: slide-in 0.3s ease-out;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+@keyframes glitch {
+  0% {
+    clip: rect(42px, 9999px, 44px, 0);
+  }
+  20% {
+    clip: rect(12px, 9999px, 59px, 0);
+  }
+  40% {
+    clip: rect(48px, 9999px, 29px, 0);
+  }
+  60% {
+    clip: rect(18px, 9999px, 83px, 0);
+  }
+  80% {
+    clip: rect(33px, 9999px, 27px, 0);
+  }
+  100% {
+    clip: rect(26px, 9999px, 55px, 0);
+  }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
 }
