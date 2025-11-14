@@ -59,25 +59,22 @@ export const AuthProvider = ({ children }) => {
 
   const signUp = async (email, password, username) => {
     try {
+      // Pass username in user metadata - the database trigger will create the profile
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          data: {
+            username: username,
+          },
+        },
       });
 
       if (authError) throw authError;
 
       if (authData.user) {
-        const { error: profileError } = await supabase
-          .from('users')
-          .insert({
-            id: authData.user.id,
-            username,
-            reputation: 0,
-            role: 'both',
-          });
-
-        if (profileError) throw profileError;
-
+        // Wait a moment for the database trigger to create the profile
+        await new Promise(resolve => setTimeout(resolve, 500));
         await fetchProfile(authData.user.id);
       }
 
