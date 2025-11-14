@@ -217,7 +217,7 @@ function ReportingSection() {
         <div className="space-y-3">
           <div>
             <p className="text-orange-400 font-mono text-sm font-bold">1. SESSION ID</p>
-            <p className="text-gray-400 text-sm font-mono">Format: XXXXX-XXXX (case-sensitive)</p>
+            <p className="text-gray-400 text-sm font-mono">Format: XXXXX-XXXXX-XXXXX (case-sensitive)</p>
           </div>
           <div>
             <p className="text-orange-400 font-mono text-sm font-bold">2. TARGET NAME</p>

@@ -69,9 +69,9 @@ export default function ConfirmationForm({ bountyId, onSuccess, onCancel }) {
       return;
     }
 
-    const sessionPattern = /^[A-Z0-9]{5}-[A-Z0-9]{4}$/;
+    const sessionPattern = /^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}$/;
     if (!sessionPattern.test(sessionId)) {
-      setError('Invalid session ID format. Expected: XXXXX-XXXX');
+      setError('Invalid session ID format. Expected: XXXXX-XXXXX-XXXXX');
       return;
     }
 
@@ -133,8 +133,8 @@ export default function ConfirmationForm({ bountyId, onSuccess, onCancel }) {
             type="text"
             value={sessionId}
             onChange={(e) => setSessionId(e.target.value.toUpperCase())}
-            placeholder="XXXXX-XXXX"
-            maxLength={10}
+            placeholder="XXXXX-XXXXX-XXXXX"
+            maxLength={17}
             required
             className="input-tactical w-full font-mono text-lg tracking-wider"
           />

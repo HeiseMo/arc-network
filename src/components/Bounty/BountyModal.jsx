@@ -193,7 +193,7 @@ export default function BountyModal({ bounty, onClose, onUpdate }) {
 
   return createPortal(
     <div 
-      className="fixed bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn" 
+      className="fixed bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 animate-fadeIn" 
       style={{ 
         zIndex: 10000,
         top: 0,
@@ -204,55 +204,55 @@ export default function BountyModal({ bounty, onClose, onUpdate }) {
       onClick={onClose}
     >
       {/* Wrapper for corner brackets - stays fixed at visible corners */}
-      <div className="relative max-w-3xl w-full max-h-[90vh]">
+      <div className="relative w-full max-w-3xl max-h-[95vh] sm:max-h-[90vh]">
         {/* Corner Brackets - Fixed to wrapper */}
-        <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-orange-500 z-20 pointer-events-none"></div>
-        <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-orange-500 z-20 pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-orange-500 z-20 pointer-events-none"></div>
-        <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-orange-500 z-20 pointer-events-none"></div>
+        <div className="absolute top-0 left-0 w-4 h-4 sm:w-6 sm:h-6 border-t-2 border-l-2 border-orange-500 z-20 pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-4 h-4 sm:w-6 sm:h-6 border-t-2 border-r-2 border-orange-500 z-20 pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-4 h-4 sm:w-6 sm:h-6 border-b-2 border-l-2 border-orange-500 z-20 pointer-events-none"></div>
+        <div className="absolute bottom-0 right-0 w-4 h-4 sm:w-6 sm:h-6 border-b-2 border-r-2 border-orange-500 z-20 pointer-events-none"></div>
 
         {/* Scrollable Content */}
         <div
-          className="crt-frame-static w-full max-h-[90vh] overflow-y-auto relative custom-scrollbar"
+          className="crt-frame-static w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto relative custom-scrollbar"
           onClick={(e) => e.stopPropagation()}
         >
 
         {/* Header Bar */}
-        <div className="sticky top-0 bg-gradient-to-r from-rust-900/95 to-rust-800/95 backdrop-blur-sm border-b-2 border-orange-500 p-4 flex items-center justify-between z-10">
-          <div className="flex items-center gap-3">
-            <Target className="w-6 h-6 text-orange-400 animate-pulse" />
-            <h2 className="text-xl font-bold text-orange-400 uppercase tracking-wider font-mono">
+        <div className="sticky top-0 bg-gradient-to-r from-rust-900/95 to-rust-800/95 backdrop-blur-sm border-b-2 border-orange-500 p-3 sm:p-4 flex items-center justify-between z-10">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Target className="w-5 h-5 sm:w-6 sm:h-6 text-orange-400 animate-pulse" />
+            <h2 className="text-base sm:text-xl font-bold text-orange-400 uppercase tracking-wider font-mono">
               [ BOUNTY DOSSIER ]
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-rust-700/50 transition-colors border border-orange-500/30 hover:border-orange-500"
+            className="p-1.5 sm:p-2 hover:bg-rust-700/50 transition-colors border border-orange-500/30 hover:border-orange-500"
             style={{ clipPath: 'polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%)' }}
           >
-            <X className="w-5 h-5 text-orange-400" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5 text-orange-400" />
           </button>
         </div>
 
-        <div className="p-6 space-y-6">
+        <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
           {/* Target Header */}
           <div className="relative">
             <div className="absolute -left-2 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-500 to-rust-600"></div>
-            <div className="pl-4">
-              <div className="flex items-center gap-4 mb-3">
-                <h3 className="text-4xl font-bold text-orange-400 uppercase tracking-wider font-mono" style={{ textShadow: '0 0 20px rgba(249, 115, 22, 0.5)' }}>
+            <div className="pl-3 sm:pl-4">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-3">
+                <h3 className="text-2xl sm:text-4xl font-bold text-orange-400 uppercase tracking-wider font-mono break-words" style={{ textShadow: '0 0 20px rgba(249, 115, 22, 0.5)' }}>
                   {bounty.target_name}
                 </h3>
-                <span className={`px-4 py-2 text-sm font-bold uppercase tracking-wider border-2 ${getStatusColor()} animate-pulse`} style={{ clipPath: 'polygon(5% 0%, 95% 0%, 100% 25%, 100% 75%, 95% 100%, 5% 100%, 0% 75%, 0% 25%)' }}>
+                <span className={`px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold uppercase tracking-wider border-2 ${getStatusColor()} animate-pulse w-fit`} style={{ clipPath: 'polygon(5% 0%, 95% 0%, 100% 25%, 100% 75%, 95% 100%, 5% 100%, 0% 75%, 0% 25%)' }}>
                   {bounty.status}
                 </span>
               </div>
 
-              <div className="flex items-center gap-3 text-sm">
-                <User className="w-4 h-4 text-gray-400" />
+              <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm flex-wrap">
+                <User className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" />
                 <span className="text-gray-400 font-mono">
                   REPORTED BY: <span className="font-bold text-orange-400">{reporter?.username || 'LOADING...'}</span>
-                  {reporter && <span className="ml-3 text-gray-500">[ REP: {reporter.reputation} ]</span>}
+                  {reporter && <span className="ml-2 sm:ml-3 text-gray-500">[ REP: {reporter.reputation} ]</span>}
                 </span>
               </div>
             </div>
@@ -262,7 +262,7 @@ export default function BountyModal({ bounty, onClose, onUpdate }) {
           {bounty.proof_url && (
             <div className="card-weathered border-orange-500/30 p-2">
               <div className="flex items-center gap-2 mb-2 pb-2 border-b border-orange-500/30">
-                <ImageIcon className="w-4 h-4 text-orange-400" />
+                <ImageIcon className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400" />
                 <span className="text-xs font-bold text-orange-400 uppercase tracking-wider">VISUAL PROOF</span>
               </div>
               <div className="relative overflow-hidden" style={{ clipPath: 'polygon(2% 0%, 98% 0%, 100% 2%, 100% 98%, 98% 100%, 2% 100%, 0% 98%, 0% 2%)' }}>
@@ -276,39 +276,39 @@ export default function BountyModal({ bounty, onClose, onUpdate }) {
           )}
 
           {/* Intelligence Grid */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="card-weathered border-denim-600/30 p-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="card-weathered border-denim-600/30 p-3 sm:p-4">
               <div className="flex items-center gap-2 mb-2 pb-2 border-b border-denim-600/30">
-                <MapPin className="w-4 h-4 text-denim-400" />
+                <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-denim-400" />
                 <span className="text-xs font-bold text-denim-400 uppercase tracking-wider">LAST KNOWN LOCATION</span>
               </div>
-              <p className="text-white font-mono text-lg font-bold">{bounty.last_location}</p>
+              <p className="text-white font-mono text-sm sm:text-lg font-bold break-words">{bounty.last_location}</p>
             </div>
 
-            <div className="card-weathered border-denim-600/30 p-4">
+            <div className="card-weathered border-denim-600/30 p-3 sm:p-4">
               <div className="flex items-center gap-2 mb-2 pb-2 border-b border-denim-600/30">
-                <Clock className="w-4 h-4 text-denim-400" />
+                <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-denim-400" />
                 <span className="text-xs font-bold text-denim-400 uppercase tracking-wider">SESSION ID</span>
               </div>
-              <p className="text-white font-mono text-lg font-bold">{bounty.session_id}</p>
+              <p className="text-white font-mono text-sm sm:text-lg font-bold break-all">{bounty.session_id}</p>
             </div>
 
             {bounty.time_left_when_killed && (
-              <div className="card-weathered border-orange-600/30 p-4">
+              <div className="card-weathered border-orange-600/30 p-3 sm:p-4">
                 <div className="flex items-center gap-2 mb-2 pb-2 border-b border-orange-600/30">
-                  <Clock className="w-4 h-4 text-orange-400" />
+                  <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400" />
                   <span className="text-xs font-bold text-orange-400 uppercase tracking-wider">TIME LEFT IN SESSION</span>
                 </div>
-                <p className="text-white font-mono text-lg font-bold">{bounty.time_left_when_killed} MIN</p>
+                <p className="text-white font-mono text-sm sm:text-lg font-bold">{bounty.time_left_when_killed} MIN</p>
               </div>
             )}
 
-            <div className="card-weathered border-olive-600/30 p-4">
+            <div className="card-weathered border-olive-600/30 p-3 sm:p-4">
               <div className="flex items-center gap-2 mb-2 pb-2 border-b border-olive-600/30">
-                <Target className="w-4 h-4 text-olive-400" />
+                <Target className="w-3 h-3 sm:w-4 sm:h-4 text-olive-400" />
                 <span className="text-xs font-bold text-olive-400 uppercase tracking-wider">ACTIVE PERIOD</span>
               </div>
-              <p className="text-white font-mono text-lg font-bold uppercase">
+              <p className="text-white font-mono text-sm sm:text-lg font-bold uppercase">
                 {bounty.active_period === '24h' && '24 HOURS'}
                 {bounty.active_period === '1week' && '1 WEEK'}
                 {bounty.active_period === 'unlimited' && 'UNLIMITED'}
@@ -318,33 +318,33 @@ export default function BountyModal({ bounty, onClose, onUpdate }) {
 
           {/* Intelligence Brief */}
           {bounty.description && (
-            <div className="card-weathered border-olive-600/30 p-4">
+            <div className="card-weathered border-olive-600/30 p-3 sm:p-4">
               <div className="flex items-center gap-2 mb-3 pb-2 border-b border-olive-600/30">
-                <AlertTriangle className="w-4 h-4 text-olive-400" />
+                <AlertTriangle className="w-3 h-3 sm:w-4 sm:h-4 text-olive-400" />
                 <span className="text-xs font-bold text-olive-400 uppercase tracking-wider">INTELLIGENCE BRIEF</span>
               </div>
-              <p className="text-gray-300 font-mono leading-relaxed">{bounty.description}</p>
+              <p className="text-gray-300 font-mono text-sm sm:text-base leading-relaxed break-words">{bounty.description}</p>
             </div>
           )}
 
           {/* Reward */}
           {bounty.reward_offer && (
-            <div className="relative overflow-hidden card-weathered border-orange-500/50 p-4 bg-gradient-to-r from-orange-900/20 to-rust-900/20">
+            <div className="relative overflow-hidden card-weathered border-orange-500/50 p-3 sm:p-4 bg-gradient-to-r from-orange-900/20 to-rust-900/20">
               <div className="absolute top-0 right-0 opacity-10">
-                <Trophy className="w-32 h-32 text-orange-500" />
+                <Trophy className="w-24 h-24 sm:w-32 sm:h-32 text-orange-500" />
               </div>
-              <div className="relative flex items-center gap-4">
-                <Trophy className="w-8 h-8 text-orange-400 animate-pulse" />
+              <div className="relative flex items-center gap-3 sm:gap-4">
+                <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-orange-400 animate-pulse" />
                 <div>
                   <p className="text-xs font-bold text-orange-400 uppercase tracking-wider mb-1">BOUNTY REWARD</p>
-                  <p className="text-2xl text-white font-bold font-mono">{bounty.reward_offer}</p>
+                  <p className="text-lg sm:text-2xl text-white font-bold font-mono break-words">{bounty.reward_offer}</p>
                 </div>
               </div>
             </div>
           )}
 
           {/* Timeline */}
-          <div className="flex items-center justify-between text-sm font-mono pt-4 border-t-2 border-orange-500/30">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 text-xs sm:text-sm font-mono pt-4 border-t-2 border-orange-500/30">
             <span className="text-gray-400">
               POSTED: <span className="text-white">{new Date(bounty.created_at).toLocaleString()}</span>
             </span>
@@ -356,27 +356,28 @@ export default function BountyModal({ bounty, onClose, onUpdate }) {
           {bounty.status === 'active' && user && user.id !== bounty.reporter_id && !showConfirmForm && (
             <button
               onClick={() => setShowConfirmForm(true)}
-              className="w-full btn-tactical bg-gradient-to-r from-orange-600 to-orange-500 border-orange-400 text-white font-bold py-4 px-6 uppercase tracking-wider flex items-center justify-center gap-3 group"
+              className="w-full btn-tactical bg-gradient-to-r from-orange-600 to-orange-500 border-orange-400 text-white font-bold py-3 sm:py-4 px-4 sm:px-6 text-sm sm:text-base uppercase tracking-wider flex items-center justify-center gap-2 sm:gap-3 group"
             >
-              <Target className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
-              [ CLAIM BOUNTY - SUBMIT PROOF ]
-              <Target className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
+              <Target className="w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-90 transition-transform duration-300" />
+              <span className="truncate">[ CLAIM BOUNTY - SUBMIT PROOF ]</span>
+              <Target className="w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-90 transition-transform duration-300" />
             </button>
           )}
 
           {showConfirmForm && (
-            <div className="pt-6 mt-6 border-t-2 border-orange-500/50 bg-rust-900/20 -mx-6 px-6 pb-6">
+            <div className="pt-4 sm:pt-6 mt-4 sm:mt-6 border-t-2 border-orange-500/50 bg-rust-900/20 -mx-3 sm:-mx-6 px-3 sm:px-6 pb-4 sm:pb-6">
               <div className="mb-4 flex items-center justify-between pb-3 border-b border-orange-500/30">
-                <h4 className="text-lg font-bold text-orange-400 uppercase tracking-wider flex items-center gap-2 font-mono">
-                  <AlertTriangle className="w-5 h-5 animate-pulse" />
-                  [ SUBMIT KILL CONFIRMATION ]
+                <h4 className="text-sm sm:text-lg font-bold text-orange-400 uppercase tracking-wider flex items-center gap-2 font-mono">
+                  <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse" />
+                  <span className="hidden sm:inline">[ SUBMIT KILL CONFIRMATION ]</span>
+                  <span className="sm:hidden">[ SUBMIT PROOF ]</span>
                 </h4>
                 <button
                   onClick={() => setShowConfirmForm(false)}
-                  className="p-2 hover:bg-rust-700/50 transition-colors border border-orange-500/30 hover:border-orange-500"
+                  className="p-1.5 sm:p-2 hover:bg-rust-700/50 transition-colors border border-orange-500/30 hover:border-orange-500"
                   style={{ clipPath: 'polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%)' }}
                 >
-                  <X className="w-4 h-4 text-orange-400" />
+                  <X className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400" />
                 </button>
               </div>
               <ConfirmationForm

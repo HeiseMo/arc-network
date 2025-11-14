@@ -59,9 +59,9 @@ export default function BountyForm({ onSuccess }) {
   };
 
   const validateForm = () => {
-    const sessionPattern = /^[A-Z0-9]{5}-[A-Z0-9]{4}$/;
+    const sessionPattern = /^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}$/;
     if (!sessionPattern.test(formData.sessionId)) {
-      setError('Invalid session ID format. Expected: XXXXX-XXXX');
+      setError('Invalid session ID format. Expected: XXXXX-XXXXX-XXXXX');
       return false;
     }
 
@@ -191,8 +191,8 @@ export default function BountyForm({ onSuccess }) {
             type="text"
             value={formData.sessionId}
             onChange={handleInputChange}
-            placeholder="XXXXX-XXXX"
-            maxLength={10}
+            placeholder="XXXXX-XXXXX-XXXXX"
+            maxLength={17}
             required
             className="input-tactical font-mono uppercase"
           />

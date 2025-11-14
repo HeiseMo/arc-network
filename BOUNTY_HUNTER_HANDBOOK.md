@@ -70,7 +70,7 @@ The Arc Raiders Bounty Hunter Network is a community-driven justice system desig
 ## 🚨 BOUNTY REPORTING RULES
 
 ### Mandatory Information:
-1. **Session ID** (Format: XXXXX-XXXX)
+1. **Session ID** (Format: XXXXX-XXXXX-XXXXX)
    - Must match active session where kill occurred
    - Case-sensitive
    - Must be verifiable
