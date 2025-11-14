@@ -60,7 +60,7 @@ export default function SessionManager() {
     }
 
     if (!validateSessionId(sessionId.toUpperCase())) {
-      setError('Invalid session ID format. Expected format: XXXXX-XXXX');
+      setError('Invalid session ID format. Expected format: XXXXX-XXXXX-XXXXX');
       return;
     }
 
@@ -135,7 +135,7 @@ export default function SessionManager() {
             type="text"
             value={sessionId}
             onChange={(e) => setSessionId(e.target.value.toUpperCase())}
-            placeholder="XXXXX-XXXX"
+            placeholder="XXXXX-XXXXX-XXXXX"
             maxLength={10}
             className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
